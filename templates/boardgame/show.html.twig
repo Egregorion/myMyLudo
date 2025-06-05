@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{boardgame.title}}{% endblock %} {# mettre le titre du jeu #}
+
+{% block body %}
+    <div class="row mt-5">
+        <div class="col-12 col-md-3 me-5">
+            <img src="{{ asset('uploads/' ~ boardgame.picture) }}" alt="{{boardgame.title}}">
+        </div>
+        <div class="col-12 col-md-8 px-5">
+            <div class="row">
+                <div class="col-6">
+                    <h1>{{boardgame.title}}</h1>
+                    <p>{{boardgame.publisher}}</p>
+                    <small>{{boardgame.releaseYear}}</small>
+                </div>
+                <div class="col-6">
+                    <h3 class="text-uppercase">informations : </h3>
+                    <span class="text-info me-2"><i class="fa-solid fa-users fa-2x"></i></span>{{boardgame.playerNumber}} |
+                    <span class="text-success mx-2"><i class="fa-solid fa-cake-candles fa-2x"></i></span>{{boardgame.age}} |
+                    <span class="text-danger mx-2"><i class="fa-solid fa-clock fa-2x"></i></span>{{boardgame.averageDuration}}m
+                </div>
+            </div>
+            <div class="mt-3">
+                <h3 class="text-uppercase">description : </h3>
+                <p>{{boardgame.description | striptags }}</p>
+            </div>
+            <div class="mt-3">
+                {% if (app.user) %}
+                    <a href="{{ path('app_review_new', {id: boardgame.id}) }}" class="btn btn-primary my-3">Rédiger un avis</a>
+                {% endif %}
+                <h3 class="text-uppercase">Avis de la communauté : </h3>
+                
+                {% for review in boardgame.reviews %}
+                <span class="heading3">
+                    {{ review.rating }}/5
+                </span>
+                <figure>
+                    <blockquote class="blockquote">
+                        <p>{{ review.commentary }}</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">
+                        {{ review.user.pseudo }}
+                    </figcaption>
+                </figure>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

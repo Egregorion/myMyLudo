@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des catégories{% endblock %}
+
+{% block body %}
+    <h1>Toutes les catégories de jeu</h1>
+    <div class="row">
+        {% for category in categories %}
+        <div class="col-12 col-md-4">
+            <h2>{{ category.name }}</h2>
+            <a href="{{ path('app_category_show' , {id: category.id}) }}">Voir les jeux</a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

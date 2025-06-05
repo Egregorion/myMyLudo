@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Laisser un commentaire pour {{ game.title }}{% endblock %}
+
+{% block body %}
+    <h1>Laisser un avis sur {{ game.title }}</h1>
+    {{ form(form) }}
+{% endblock %}

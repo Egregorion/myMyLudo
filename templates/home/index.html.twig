@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur MyMyLudo !{% endblock %}
+
+{% block body %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for boardgame in boardgames %}
+    <div class="col">
+        <div class="card">
+            <img src="{{ asset('uploads/' ~ boardgame.picture) }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ boardgame.title }}</h5>
+                <p class="card-text">{{ boardgame.description | striptags | slice(0, 250)}}...</p>
+                <a href="{{ path('app_boardgame_show', {id: boardgame.id})}}" class="btn btn-primary">Voir le jeu</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
