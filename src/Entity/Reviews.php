@@ -2,10 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ReviewsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ReviewsRepository::class)]
+#[ApiResource(
+    normalizationContext:['groups'=>['boardgame']]
+)]
 class Reviews
 {
     #[ORM\Id]
@@ -14,9 +19,11 @@ class Reviews
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups('boardgame')]
     private ?int $rating = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('boardgame')]
     private ?string $commentary = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
