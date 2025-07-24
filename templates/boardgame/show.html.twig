@@ -27,6 +27,22 @@
             </div>
             <div class="mt-3">
                 {% if (app.user) %}
+                    {# Composant de gestion de collection #}
+                    <div {{ stimulus_controller('collection', {
+                        boardgameId: boardgame.id,
+                        isInCollection: app.user.boardgames.contains(boardgame),
+                        addUrl: path('app_boardgame_addToCollection', {id: boardgame.id}),
+                        removeUrl: path('app_boardgame_removeFromCollection', {id: boardgame.id})
+                    }) }} class="mb-3">
+                        <button type="button" 
+                                class="btn btn-lg"
+                                data-collection-target="button"
+                                data-action="click->collection#toggle">
+                            <i class="fas" data-collection-target="icon"></i>
+                            <span data-collection-target="text"></span>
+                        </button>
+                    </div>
+                    
                     <a href="{{ path('app_review_new', {id: boardgame.id}) }}" class="btn btn-primary my-3">Rédiger un avis</a>
                 {% endif %}
                 <h3 class="text-uppercase">Avis de la communauté : </h3>

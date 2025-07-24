@@ -96,7 +96,7 @@ final class BoardgameController extends AbstractController
     }
 
     #[Route('/boardgame/{id}/addtocollection', name: 'app_boardgame_addToCollection')]
-    public function addToCollection($id, BoardgameRepository $br, EntityManagerInterface $em)
+    public function addToCollection($id, BoardgameRepository $br, EntityManagerInterface $em, Request $request)
     {
         /** @var App\Entity\User $user */
         $user = $this->getUser();
@@ -104,11 +104,17 @@ final class BoardgameController extends AbstractController
         $user->addBoardgame($boardgame);
         $em->persist($user);
         $em->flush();
+        
+        // Si c'est une requête AJAX, retourner une réponse JSON
+        if ($request->isXmlHttpRequest()) {
+            return $this->json(['success' => true, 'message' => 'Jeu ajouté à votre collection']);
+        }
+        
         return $this->redirectToRoute('app_boardgame_show', ['id' => $id]);
     } 
 
     #[Route('/boardgame/{id}/removefromcollection', name: 'app_boardgame_removeFromCollection')]
-    public function removeFromCollection($id, BoardgameRepository $br, EntityManagerInterface $em)
+    public function removeFromCollection($id, BoardgameRepository $br, EntityManagerInterface $em, Request $request)
     {
         /** @var App\Entity\User $user */
         $user = $this->getUser();
@@ -116,6 +122,12 @@ final class BoardgameController extends AbstractController
         $user->removeBoardgame($boardgame);
         $em->persist($user);
         $em->flush();
+        
+        // Si c'est une requête AJAX, retourner une réponse JSON
+        if ($request->isXmlHttpRequest()) {
+            return $this->json(['success' => true, 'message' => 'Jeu retiré de votre collection']);
+        }
+        
         return $this->redirectToRoute('app_boardgame_show', ['id' => $id]);
     } 
 }

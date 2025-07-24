@@ -12,7 +12,25 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ boardgame.title }}</h5>
                     <p class="card-text">{{ boardgame.description | slice(0, 250)}}...</p>
-                    <a href="{{ path('app_boardgame_show', {id: boardgame.id}) }}" class="btn btn-primary">Voir le jeu</a>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ path('app_boardgame_show', {id: boardgame.id})}}" class="btn btn-primary">Voir le jeu</a>
+                        {% if app.user %}
+                        <div {{ stimulus_controller('collection', {
+                            boardgameId: boardgame.id,
+                            isInCollection: app.user.boardgames.contains(boardgame),
+                            addUrl: path('app_boardgame_addToCollection', {id: boardgame.id}),
+                            removeUrl: path('app_boardgame_removeFromCollection', {id: boardgame.id})
+                            }) }}>
+                            <button type="button" 
+                                    class="btn btn-sm"
+                                    data-collection-target="button"
+                                    data-action="click->collection#toggle"
+                                    title="Gérer ma collection">
+                                <i class="fas" data-collection-target="icon"></i>
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
