@@ -37,5 +37,12 @@
         </div>
     </div>
     {% endfor %}
+    {% if previous >= 0 %}
+        <a href="{{ path('app_home', { offset: previous }) }}">Previous</a>
+    {% endif %}
+    {% if next < boardgames|length %}
+        <a href="{{ path('app_home', { offset: next }) }}">Next</a>
+    {% endif %}
 </div>
+
 {% endblock %}

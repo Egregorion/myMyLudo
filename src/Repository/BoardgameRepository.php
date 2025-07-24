@@ -5,15 +5,30 @@ namespace App\Repository;
 use App\Entity\Boardgame;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @extends ServiceEntityRepository<Boardgame>
  */
 class BoardgameRepository extends ServiceEntityRepository
 {
+
+    public const BOARDGAMES_PER_PAGE = 2;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Boardgame::class);
+    }
+
+    public function getBoardgamePaginator(int $offset): Paginator
+    {
+        $query = $this->createQueryBuilder('b')
+            ->orderBy('b.id', 'ASC')
+            ->setFirstResult($offset)
+            ->setMaxResults(self::BOARDGAMES_PER_PAGE)
+            ->getQuery();
+
+        return new Paginator($query);
     }
 
     //    /**
