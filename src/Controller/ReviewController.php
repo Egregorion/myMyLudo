@@ -26,17 +26,22 @@ final class ReviewController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $game = $br->find($id);
+        
         $review = new Reviews;
+        
+        // Pré-remplir l'entité AVANT de créer le formulaire
+        $review->setUser($this->getUser());
+        $review->setBoardgame($game);
+        
         $form = $this->createForm(ReviewForm::class, $review);
         $form->handleRequest($request);
+        
         if($form->isSubmitted() && $form->isValid()){
-            $user = $this->getUser();
-            $review->setUser($user);
-            $review->setBoardgame($game);
             $em->persist($review);
-            $em->flush($review);
+            $em->flush();
             return $this->redirectToRoute('app_boardgame_show', [ 'id' => $id]);
         }
+        
         return $this->render('review/new.html.twig', [
             'game' => $game,
             'form' => $form

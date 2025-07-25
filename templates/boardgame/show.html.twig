@@ -42,8 +42,9 @@
                             <span data-collection-target="text"></span>
                         </button>
                     </div>
+                    <turbo-frame id="reviews.{{ boardgame.id }}">
+                        <a href="{{ path('app_review_new', {id: boardgame.id}) }}" class="btn btn-primary my-3">Rédiger un avis</a>
                     
-                    <a href="{{ path('app_review_new', {id: boardgame.id}) }}" class="btn btn-primary my-3">Rédiger un avis</a>
                 {% endif %}
                 <h3 class="text-uppercase">Avis de la communauté : </h3>
                 
@@ -60,6 +61,7 @@
                     </figcaption>
                 </figure>
                 {% endfor %}
+                </turbo-frame>
             </div>
         </div>
     </div>

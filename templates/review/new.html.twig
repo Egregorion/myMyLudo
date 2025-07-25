@@ -3,6 +3,8 @@
 {% block title %}Laisser un commentaire pour {{ game.title }}{% endblock %}
 
 {% block body %}
-    <h1>Laisser un avis sur {{ game.title }}</h1>
-    {{ form(form) }}
+    <turbo-frame id="reviews.{{ game.id }}">
+        <h1>Laisser un avis sur {{ game.title }}</h1>
+        {{ form(form, {action: path('app_review_new', {id: game.id})}) }}
+    </turbo-frame>
 {% endblock %}
